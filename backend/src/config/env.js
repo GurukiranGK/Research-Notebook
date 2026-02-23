@@ -3,5 +3,8 @@ dotenv.config();
 
 export const env = {
   port: process.env.PORT || 4000,
-  jwtSecret: process.env.JWT_SECRET || "dev_secret"
+
+  // Keycloak
+  keycloakIssuer: process.env.KEYCLOAK_ISSUER,
+  keycloakAudience: process.env.KEYCLOAK_AUDIENCE
 };
