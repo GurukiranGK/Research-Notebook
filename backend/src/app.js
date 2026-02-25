@@ -3,6 +3,8 @@ import cors from "cors";
 import { protectedRouter } from "./routes/protectedroutes.js";
 import { errorMiddleware } from "./middlewares/middleware.js";
 import { notebookRouter } from "./routes/notebookroutes.js";
+import { documentRouter } from "./routes/documentroutes.js";
+
 
 
 
@@ -14,6 +16,7 @@ app.use(express.json());
 
 app.use("/protected", protectedRouter);
 app.use("/notebooks", notebookRouter);
+app.use("/documents", documentRouter);
 app.use(errorMiddleware);
 
 export default app;

@@ -16,3 +16,15 @@ model Notebook {
 
   @@index([userId])
 }
+
+model Document {
+  id          String   @id @default(uuid())
+  notebookId  String
+  userId      String
+  filename    String
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+
+  @@index([notebookId])
+  @@index([userId])
+}

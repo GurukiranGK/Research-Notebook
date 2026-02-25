@@ -5,10 +5,13 @@ import { NotebookRepository } from "../repositories/notebook.js";
 export const notebookRouter = Router();
 const repo = new NotebookRepository();
 
+// 🔐 protect ALL notebook routes
+notebookRouter.use(keycloakAuth);
+
 /**
  * Create notebook
  */
-notebookRouter.post("/", keycloakAuth, async (req, res) => {
+notebookRouter.post("/", async (req, res) => {
   const notebook = await repo.create({
     title: req.body.title,
     userId: req.user.id
@@ -19,7 +22,7 @@ notebookRouter.post("/", keycloakAuth, async (req, res) => {
 /**
  * Get my notebooks
  */
-notebookRouter.get("/", keycloakAuth, async (req, res) => {
+notebookRouter.get("/", async (req, res) => {
   const notebooks = await repo.findByUser(req.user.id);
   res.json(notebooks);
 });
@@ -27,7 +30,7 @@ notebookRouter.get("/", keycloakAuth, async (req, res) => {
 /**
  * Update notebook
  */
-notebookRouter.put("/:id", keycloakAuth, async (req, res) => {
+notebookRouter.put("/:id", async (req, res) => {
   const result = await repo.update({
     id: req.params.id,
     userId: req.user.id,
@@ -44,7 +47,7 @@ notebookRouter.put("/:id", keycloakAuth, async (req, res) => {
 /**
  * Delete notebook
  */
-notebookRouter.delete("/:id", keycloakAuth, async (req, res) => {
+notebookRouter.delete("/:id", async (req, res) => {
   const result = await repo.delete({
     id: req.params.id,
     userId: req.user.id
