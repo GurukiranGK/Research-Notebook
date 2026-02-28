@@ -18,4 +18,10 @@ export class DocumentRepository {
       orderBy: { createdAt: "desc" }
     });
   }
+
+  findById({ id, userId }) {
+  return prisma.document.findFirst({
+    where: { id, userId }
+  });
+}
 }

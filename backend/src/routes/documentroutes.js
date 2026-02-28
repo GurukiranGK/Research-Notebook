@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { keycloakAuth } from "../middlewares/keycloak.middleware.js";
-import { upload } from "../middlewares/upload.middleware.js";
+import { keycloakAuth } from "../middlewares/keycloak.js";
+import { upload } from "../middlewares/uploadmiddleware.js";
 import { extractText } from "../utils/textextractor.js";
 import { DocumentRepository } from "../repositories/documentrepo.js";
 
