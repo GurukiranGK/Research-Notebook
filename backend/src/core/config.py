@@ -22,6 +22,13 @@ class Settings:
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
     qdrant_url: str = os.getenv("QDRANT_URL", "")
     qdrant_collection: str = os.getenv("QDRANT_COLLECTION", "")
+    keycloak_admin_client_id: str = os.getenv(
+    "KEYCLOAK_ADMIN_CLIENT_ID",
+    "",)
+    keycloak_admin_client_secret: str = os.getenv(
+        "KEYCLOAK_ADMIN_CLIENT_SECRET",
+        "",
+    )
 
 
 @lru_cache

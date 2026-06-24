@@ -16,3 +16,17 @@ class TokenResponse(BaseModel):
     not_before_policy: int | None = Field(default=None, alias="not-before-policy")
     session_state: str | None = None
     scope: str | None = None
+
+
+class RegisterRequest(BaseModel):
+    username: str = Field(min_length=3, max_length=50)
+    email: str
+    password: str = Field(min_length=8, max_length=128)
+    displayName: str | None = Field(default=None, max_length=100)
+
+
+class RegisterResponse(BaseModel):
+    id: str
+    username: str
+    email: str
+    displayName: str | None = None

@@ -2,7 +2,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from src.api.routes import auth, chat, documents, notebooks, protected, search
+
+from src.api.routes import auth, chat, documents, notebooks, protected, search,conversations
 
 
 app = FastAPI()
@@ -33,3 +34,4 @@ app.include_router(notebooks.router)
 app.include_router(documents.router)
 app.include_router(search.router)
 app.include_router(chat.router)
+app.include_router(conversations.router)

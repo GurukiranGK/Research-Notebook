@@ -172,3 +172,4 @@ def downgrade() -> None:
 
     op.drop_index("Notebook_userId_idx", table_name="Notebook")
     op.drop_table("Notebook")
+

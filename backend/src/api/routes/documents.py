@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, File, UploadFile
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
-from src.services.document_service import delete_document_with_children
+from src.services.document_services import delete_document_with_children
 
 from src.core.security import get_current_user
 from src.db.database import get_db
