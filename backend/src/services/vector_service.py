@@ -33,8 +33,8 @@ def delete_document_vectors(*, document_id: str, user_id: str) -> None:
         collection_name=settings.qdrant_collection,
         points_selector=Filter(
             must=[
-                FieldCondition(key="documentId", match=MatchValue(value=document_id)),
-                FieldCondition(key="userId", match=MatchValue(value=user_id)),
+                FieldCondition(key="metadata.documentId", match=MatchValue(value=document_id)),
+                FieldCondition(key="metdata.userId", match=MatchValue(value=user_id)),
             ]
         ),
         wait=True,

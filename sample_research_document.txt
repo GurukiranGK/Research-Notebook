@@ -1,0 +1,19 @@
+Title: Attention Mechanisms in Transformer Models
+
+Transformer models are neural network architectures designed to process sequential data such as natural language. Unlike older recurrent neural networks, transformers do not read text strictly from left to right. Instead, they use attention mechanisms to compare words with one another and decide which parts of the input are most relevant.
+
+The main idea behind attention is that each word can look at other words in the same sentence or document. For example, in the sentence "The researcher published the paper because she completed the experiment," attention helps the model connect "she" with "researcher." This allows the model to understand context more effectively.
+
+Self-attention is especially important in transformer models. It allows the model to calculate relationships between all tokens in an input sequence. Each token receives a representation that depends not only on itself, but also on other useful tokens nearby or far away in the text.
+
+Transformers are widely used in machine translation, summarization, question answering, code generation, and chat applications. Large language models use transformer-based architectures because they can learn patterns from large amounts of text and generate coherent responses.
+
+One advantage of transformers is parallel processing. Since they do not depend on sequential recurrence, many parts of the input can be processed at the same time. This makes training faster and more scalable compared with traditional recurrent models.
+
+However, transformers also have limitations. They can require large amounts of data, memory, and compute power. Long documents can be expensive to process directly, which is why retrieval systems often split documents into smaller chunks and search for the most relevant chunks before asking the language model to answer.
+
+In a research notebook application, uploaded documents can be chunked into smaller pieces. These chunks can be embedded into vectors and stored in a vector database such as Qdrant. When a user asks a question, the question is also embedded, and the vector database finds the chunks that are semantically closest to the question.
+
+This process is called retrieval-augmented generation, or RAG. RAG improves answer quality by grounding the language model in relevant source material. Instead of relying only on general training knowledge, the model receives specific context from the uploaded document.
+
+Summary: Attention helps transformer models focus on relevant parts of text. Chunking and vector search help chat applications retrieve useful document context before generating answers.

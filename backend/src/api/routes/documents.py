@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, UploadFile,HTTPException
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from src.services.document_services import delete_document_with_children
+
 
 from src.core.security import get_current_user
 from src.db.database import get_db
@@ -23,6 +24,17 @@ async def upload_document(
     user: dict = Depends(get_current_user),
 ):
     text = await extract_text(file)
+    existing_document = repo.find_one_by_notebook(
+        db,
+        notebook_id=notebook_id,
+        user_id=user["id"],
+    )
+
+    if existing_document:
+        raise HTTPException(
+            status_code=400,
+            detail="This notebook already has a document",
+        )
     document = repo.create(
         db,
         notebook_id=notebook_id,

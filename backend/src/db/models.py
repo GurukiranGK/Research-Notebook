@@ -36,7 +36,7 @@ class Document(Base):
     )
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=uuid_string)
-    notebookId: Mapped[str] = mapped_column(String, ForeignKey("Notebook.id"), nullable=False)
+    notebookId: Mapped[str] = mapped_column(String, ForeignKey("Notebook.id"),unique=True, nullable=False)
     userId: Mapped[str] = mapped_column(String, nullable=False)
     filename: Mapped[str] = mapped_column(String, nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)

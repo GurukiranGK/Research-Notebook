@@ -53,3 +53,17 @@ class DocumentRepository:
         )
         db.commit()
         return result.rowcount or 0
+    
+    def find_one_by_notebook(
+        self,
+        db: Session,
+        *,
+        notebook_id: str,
+        user_id: str,
+        ) -> Document | None:
+        return db.scalar(
+                select(Document).where(
+                Document.notebookId == notebook_id,
+                Document.userId == user_id,
+            )
+        )

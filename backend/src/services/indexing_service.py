@@ -1,9 +1,7 @@
-from qdrant_client.models import PointStruct
+from langchain_core.documents import Document
 
-from src.core.config import get_settings
 from src.db.models import Chunk
-from src.integrations.gemini import get_embeddings
-from src.integrations.qdrant import get_qdrant
+from src.integrations.vectorstore import get_vectorstore
 from .vector_service import ensure_collection
 
 
@@ -11,23 +9,24 @@ def index_chunks(*, chunks: list[Chunk]) -> None:
     if not chunks:
         return
 
-    settings = get_settings()
     ensure_collection()
 
-    vectors = get_embeddings().embed_documents([chunk.content for chunk in chunks])
-    print("Embedding length:", len(vectors[0]) if vectors else None)
-
-    points = [
-        PointStruct(
-            id=chunk.id,
-            vector=vectors[index],
-            payload={
+    documents = [
+        Document(
+            page_content=chunk.content,
+            metadata={
+                "chunkId": chunk.id,
                 "documentId": chunk.documentId,
                 "userId": chunk.userId,
                 "order": chunk.order,
             },
         )
-        for index, chunk in enumerate(chunks)
+        for chunk in chunks
     ]
 
-    get_qdrant().upsert(collection_name=settings.qdrant_collection, points=points)
+    ids = [chunk.id for chunk in chunks]
+
+    get_vectorstore().add_documents(
+        documents=documents,
+        ids=ids,
+    )

@@ -5,6 +5,30 @@ from src.db.models import Conversation
 
 
 class ConversationRepository:
+    
+    def update_summary(
+        self,
+        db: Session,
+        *,
+        id: str,
+        user_id: str,
+        summary: str,
+        ) -> Conversation | None:
+        conversation = self.find_by_id(
+            db,
+            id=id,
+            user_id=user_id,
+        )
+
+        if not conversation:
+            return None
+
+        conversation.summary = summary
+        db.commit()
+        db.refresh(conversation)
+
+        return conversation
+    
     def create(
         self,
         db: Session,
@@ -87,3 +111,26 @@ class ConversationRepository:
 
         db.commit()
         return result.rowcount or 0
+
+    def update_title(
+    self,
+    db: Session,
+    *,
+    id: str,
+    user_id: str,
+    title: str,
+) -> Conversation | None:
+        conversation = self.find_by_id(
+            db,
+            id=id,
+            user_id=user_id,
+        )
+
+        if not conversation:
+            return None
+
+        conversation.title = title
+        db.commit()
+        db.refresh(conversation)
+
+        return conversation    

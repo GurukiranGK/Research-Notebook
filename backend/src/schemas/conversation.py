@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 
+
 class ConversationCreate(BaseModel):
     notebookId: str
     title: str = Field(
@@ -10,6 +11,10 @@ class ConversationCreate(BaseModel):
         min_length=1,
         max_length=200,
     )
+
+class MessageCreate(BaseModel):
+    documentId: str
+    content: str
 
 
 class ConversationOut(BaseModel):
@@ -24,6 +29,8 @@ class ConversationOut(BaseModel):
     updatedAt: datetime
 
 
+
+
 class MessageCreate(BaseModel):
     content: str = Field(min_length=1, max_length=10000)
 
@@ -36,3 +43,10 @@ class MessageOut(BaseModel):
     role: str
     content: str
     createdAt: datetime
+
+class ConversationMessageResponse(BaseModel):
+    userMessage: MessageOut
+    assistantMessage: MessageOut
+    answer: str
+    sources: list[str]
+    summary: str

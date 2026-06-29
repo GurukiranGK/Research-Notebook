@@ -5,12 +5,16 @@ from sqlalchemy.orm import Session
 from src.core.security import get_current_user
 from src.db.database import get_db
 from src.repositories.notebook import NotebookRepository
+from src.repositories.document import DocumentRepository
 from src.schemas.notebook import NotebookCreate, NotebookOut, NotebookUpdate
 from src.services.notebook_service import delete_notebook_with_children
+from src.services.document_services import delete_document_with_children
 
 
 router = APIRouter(prefix="/notebooks", tags=["notebooks"])
 repo = NotebookRepository()
+document_repo=DocumentRepository()
+
 
 
 @router.post("", response_model=NotebookOut, status_code=201)
@@ -46,7 +50,21 @@ def delete_notebook(
     db: Session = Depends(get_db),
     user: dict = Depends(get_current_user),
 ):
+    document = document_repo.find_one_by_notebook(
+    db,
+    notebook_id=notebook_id,
+    user_id=user["id"],
+    )
+    
+    if document:
+        delete_document_with_children(
+            db,
+            document_id=document.id,
+            user_id=user["id"],
+        )
+    
     count = delete_notebook_with_children(db, notebook_id=notebook_id, user_id=user["id"])
+    
     if count == 0:
         return JSONResponse(status_code=404, content={"error": "Notebook not found"})
     return {"success": True}
